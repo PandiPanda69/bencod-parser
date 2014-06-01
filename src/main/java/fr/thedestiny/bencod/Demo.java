@@ -26,7 +26,14 @@ public class Demo {
 		
 		BencodFileInputStream bfis = new BencodFileInputStream(args[0]);
 		BencodParser reader = new BencodParser(bfis);
-		System.out.println(reader.parse());
+		
+		long A = System.currentTimeMillis();
+		Object result = reader.parse();
+		long B = System.currentTimeMillis();
+		
+		System.out.println("Read in " + (B-A) + " ms.");
+		System.out.println(result);
+		
 		bfis.close();
 	}
 

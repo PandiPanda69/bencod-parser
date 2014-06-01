@@ -47,6 +47,15 @@ public class BencodFileInputStreamTest {
 		int afterMegaRetromoveLength = bfis.available();
 		assertEquals(15, afterMegaRetromoveLength);
 		
+		byte[] buffer = new byte[5];
+		int rangeBytesRead = bfis.read(buffer);
+		int afterRangeBytesRead = bfis.available();
+		String dataRead = new String(buffer);
+		
+		assertEquals(5, rangeBytesRead);
+		assertEquals(10, afterRangeBytesRead);
+		assertEquals("11:He", dataRead);
+		
 		bfis.close();
 	}
 }

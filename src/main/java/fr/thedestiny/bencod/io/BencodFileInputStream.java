@@ -10,7 +10,7 @@ import fr.thedestiny.bencod.parser.BencodParser;
 
 /**
  * Input stream required by {@link BencodParser} to read bencod file. 
- * @author Sébastien
+ * @author Sï¿½bastien
  */
 public class BencodFileInputStream extends InputStream {
 
@@ -74,6 +74,25 @@ public class BencodFileInputStream extends InputStream {
 		}
 		
 		return this.buffer[this.offset++];
+	}
+	
+	// FIXME : Performance issue on this method
+	@Override
+	public int read(byte[] buffer) throws IOException {
+		
+		int size = buffer.length;
+		if((this.offset + size) >= this.bufferSize) {
+			size = available();
+			if(size == 0) {
+				return -1;
+			}
+		}
+		
+		for(int i = 0; i < size; i++) {
+			buffer[i] = this.buffer[this.offset++];
+		}
+		
+		return size;
 	}
 	
 	/**

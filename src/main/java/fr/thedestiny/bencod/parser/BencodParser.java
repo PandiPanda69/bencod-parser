@@ -34,7 +34,7 @@ import fr.thedestiny.bencod.io.BencodFileInputStream;
  *  <li>_number: [0-9]*</li>
  * </ul>
  *  
- * @author Sébastien
+ * @author Sï¿½bastien
  */
 public class BencodParser {
 
@@ -69,7 +69,7 @@ public class BencodParser {
 				case INTEGER:
 					current = readInteger();
 					break;
-				case DICTIONARY: 
+				case DICTIONARY:
 					current = readDictionary();
 					break;
 				case LIST:
@@ -142,16 +142,16 @@ public class BencodParser {
 	 */
 	private String readString() throws IOException, BencodFileFormatException {
 		
-		long size = readSize();
+		int size = readSize();
 		
 		readDelimiter();
 		
-		StringBuilder buffer = new StringBuilder();
-		for(int i = 0; i < size; i++) {
-			buffer.append((char) bfis.read());
+		byte[] buffer = new byte[size];
+		if(bfis.read( buffer ) < size) {
+			throw new BencodFileFormatException("End has been reached before having read all the string.");
 		}
 		
-		return buffer.toString();
+		return new String(buffer);
 	}
 
 	/**
